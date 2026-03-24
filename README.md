@@ -28,9 +28,66 @@ If the model is not performing well, experiment with different architectures, re
 Visualize the training/validation loss and accuracy over epochs to understand the training process. Visualize some misclassified examples to gain insights into potential improvements.
 
 # Program:
-Insert your code here
+```
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.datasets import load_digits
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.neural_network import MLPClassifier
+from sklearn.metrics import accuracy_score, classification_report
+
+# Load dataset
+digits = load_digits()
+
+X = digits.data
+y = digits.target
+
+# Train-test split
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42
+)
+
+# Feature scaling
+scaler = StandardScaler()
+X_train = scaler.fit_transform(X_train)
+X_test = scaler.transform(X_test)
+
+# Build MLP Model
+mlp = MLPClassifier(
+    hidden_layer_sizes=(128, 64),  # 2 hidden layers
+    activation='relu',
+    solver='adam',
+    max_iter=300,
+    random_state=42
+)
+
+# Train Model
+mlp.fit(X_train, y_train)
+
+# Predict
+y_pred = mlp.predict(X_test)
+
+# Accuracy
+print("Accuracy:", accuracy_score(y_test, y_pred))
+
+# Classification Report
+print("\nClassification Report:\n")
+print(classification_report(y_test, y_pred))
+plt.figure(figsize=(10,4))
+
+for i in range(10):
+    plt.subplot(2,5,i+1)
+    plt.imshow(X_test[i].reshape(8,8), cmap='gray')
+    plt.title(f"Pred: {y_pred[i]}")
+    plt.axis('off')
+
+plt.show()
+```
 
 ## Output:
-Show your results here
+<img width="1040" height="825" alt="image" src="https://github.com/user-attachments/assets/4dbf8217-0a22-46b7-b890-4fc437f5f2cf" />
 
+## Result:
+Hence the program hes been runned and output taken successfully
 
